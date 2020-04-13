@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TODO APP</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <style>
+      body {
+        padding: 50% auto;
+      }
+    </style>
+  </head>
+  <body>
+    <script src="https://sdk.scdn.co/spotify-player.js"></script>
+    <script>
+      window.onSpotifyWebPlaybackSDKReady = () => {
+        const userAccessToken = "[access token]";
+        const webPlayback = new Spotify.Player({
+          name: "Spotify Web Playback SDK",
+          getOAuthToken: (callback) => {
+            callback(token);
+          },
+        });
+        webPlayback.connect();
+      };
+    </script>
+    <div class="container">
+      <a class="navbar-brand" href="#">TODO APP</a>
+
+      <form action="/addtodo/" method="POST">
+        {% csrf_token %}
+        <br />
+        WORK : <input type="text" name="work" id="work" class="form-control" />
+        <br />
+        <br />
+        <input
+          type="submit"
+          name="submit"
+          id="submit"
+          class="btn btn-success float-right"
+          style="display: inline;"
+        />
+      </form>
+      <br />
+      <br />
+      {% for work in LIST%}
+      <br />
+      <ul class="list-group">
+        <li class="list-group-item">{{work}}</li>
+      </ul>
+      <br />
+      <a href="/deletetodo/{{work.id}}" class="btn btn-danger">DELETE</a>
+      <br />
+      {% endfor%}
+    </div>
+  </body>
+</html>
